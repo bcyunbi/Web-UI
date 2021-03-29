@@ -1,0 +1,27 @@
+STYLE GUIDE
+
+# share style
+
+|- /assets
+|    |- /style
+|---------|- /base                      # share style about base style, eg. font
+|         |     |- _device.scss          # style about device, eg. ios specific style or different device style 
+|         |     |- _reset.scss          # style about reset some default style
+|         |     |- _typography.scss          # style about font size, font family..
+|         |
+|---------|- /component                      # share component style
+|         |
+|---------|- /helper                    # share variable, and mixin
+|         |     |- _extend.scss          # scss extend
+|         |     |- _function.scss          # scss function
+|         |     |- _mixins.scss          # scss mixins
+|         |     |- _variables.scss          # scss variables eg.color, font-size
+|         |
+|---------|- /layout                    # share layout 
+|         |     |- _layout-global.scss          # layout global
+|         |
+|---------|- style-import.scss          # including varible, mixin.. then every component can use
+|         |
+|---------|- style-globe.scss          # global style setting
+
+

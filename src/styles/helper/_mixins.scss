@@ -1,0 +1,46 @@
+/*
+|-mixins
+|- 01 color
+|- 02 word limit
+|- 03 others
+*/
+
+
+// ===== 01 color mixin   ===== 
+@mixin color-gradient-main-horizon() {
+  background-image: linear-gradient(to right, $bg-color-main1, $color-main2);
+  background: -webkit-linear-gradient(to right, $bg-color-main1, $color-main2);
+  background: -o-linear-gradient(to right, $bg-color-main1, $color-main2);
+  background: -moz-linear-gradient(to right, $bg-color-main1, $color-main2);
+  background: linear-gradient(to right, $bg-color-main1, $color-main2);
+}
+@mixin color-gradient-main-bottom($bg-color-main1, $color-main2) {
+  background-image: linear-gradient(to bottom, $bg-color-main1, $color-main2);
+  background: -webkit-linear-gradient(to bottom, $bg-color-main1, $color-main2);
+  background: -o-linear-gradient(to bottom, $bg-color-main1, $color-main2);
+  background: -moz-linear-gradient(to bottom, $bg-color-main1, $color-main2);
+  background: linear-gradient(to bottom, $bg-color-main1, $color-main2);
+}
+
+// ===== 02 word limit =====
+//引入參數舉例說明
+//超過四字，從第四字開始... ：原字大小、5字的寬度
+//超過四個字，從第三字開始...：「原字大小」小一號、5字的寬度
+@mixin word-limit-width($font-size, $word-num) {
+  width:calc(#{$font-size} * #{$word-num});
+}
+
+@mixin word-limit-max-width($font-size, $word-num) {
+  max-width:calc(#{$font-size} * #{$word-num});
+}
+
+@mixin word-limit-line($line-num) {
+  -webkit-line-clamp: $line-num;
+}
+
+//  ===== 03 others ===== 
+@mixin box-shadow($shadow) {
+  -webkit-box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+  box-shadow: $shadow;
+}

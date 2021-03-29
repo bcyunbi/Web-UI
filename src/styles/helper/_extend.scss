@@ -1,0 +1,96 @@
+.no-show-scrollbar {
+
+  // ::-webkit-scrollbar {
+  //   // visibility: hidden;
+  //   width: 0px;
+  //   height: 0px;
+  // }
+  ::-webkit-scrollbar-track-piece {
+    background: transparent;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 3px;
+  }
+}
+
+.show-sm-scrollbar01 {
+  &::-webkit-scrollbar-track-piece {
+    background: #fff;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar {
+    width: 3px;
+    height: 5px;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #96BEF7;
+    border-radius: 3px;
+  }
+}
+
+.show-sm-scrollbar01 {
+  &::-webkit-scrollbar-track-piece {
+    background: #fff;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar {
+    width: 3px;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #96BEF7;
+    border-radius: 3px;
+  }
+}
+
+// flex置中
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// 超過幾字點點
+.overflowToDot {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+// 超過幾行點點點
+.word-limit-lineType {
+  display: -webkit-box;
+  overflow: hidden;
+  /* autoprefixer: ignore next */
+  -webkit-box-orient: vertical !important;
+}
+
+.lg-pc-screen-center {
+  @media (min-width: $screen-lg-pc) {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  @media (min-width: $screen-laptop) {
+    width: 65%;
+    margin: 0 auto;
+  }
+  @media (min-width: $screen-4k) {
+    width: 50%;
+    margin: 0 auto;
+  }
+}

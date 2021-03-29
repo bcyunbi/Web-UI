@@ -1,0 +1,161 @@
+// ui-panel
+
+// blue
+$color-blue-01:#1144D0;
+$color-blue-02:#64a4ff;
+$color-blue-03:#E7EEF8;
+$color-blue-04:#f0f8ff;
+$color-blue-05:rgba(231, 238, 248, 0.254);
+$color-blue-06:rgba(122, 156, 255, 0.15);
+$color-blue-07:#3398DB;
+$color-blue-08:#00a1d6;
+$color-blue-09:#d0ddee;
+$color-blue-10:rgba(5,140,255, 0.2);
+$color-blue-11:#D7E3F7;
+
+// label color
+$color-orange-01:#F5922F;
+$color-orange-02:rgba(245, 146, 47, 0.30);
+$color-orange-03:#f7a553;
+$color-red-01:#FF6666;
+$color-green-01:#358A7A;
+$color-green-02:#5db3c7;
+$color-purple-01:#D2A2E0;
+
+// text-color
+$color-white-01:#fefefe;
+$color-gray-01:#f3f3f3; //
+$color-gray-02:#5D5D5D;
+$color-gray-03:#8f8f8f;
+$color-black-01:#1d1d1d;
+// main 
+$color-main: $color-blue-01;
+$color-sub: $color-blue-02;
+$color-active: $color-orange-01;
+$color-default: $color-blue-03;
+$color-font-normal:$color-gray-01;
+
+// radius
+$btn-radius:4rem;
+$normal-radius:$btn-radius;
+$card-radius:15px;
+$card-radius-02:25px;
+$card-radius-03:40px;
+
+// font-weight
+$font-weight-bold: 600;
+$font-weight-heavy: 800;
+
+// box-shadow
+$shadow-01: 0 4px 5px 0 rgba(175, 175, 175, 0.14), 0 1px 10px 0 rgba(175, 175, 175, 0.12), 0 2px 4px -1px rgba(175, 175, 175, 0.2);
+$shadow-02:rgba(195, 195, 195, 0.26) 3px 6px 12px;
+$shadow-03: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px,
+rgba(0, 0, 0, 0.1) 0px 2px 4px 0px,
+rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+// letter-spacing
+$normal-letter-spacing:0.5px;
+$scrollbar-width:5px;
+
+// layout padding
+$layout-page-padding-01:15px 20px 100px;
+$layout-page-padding-02:40px 40px 100px;
+
+
+
+// ===== 02 font setting ======
+// 為了統一調整字體大小功能
+// 02-1 font basic setting
+$font-family: Arial,
+"文泉驛正黑",
+"WenQuanYi Zen Hei",
+"蘋方-繁",
+"PingFang TC",
+"黑體-繁",
+"Heiti TC",
+"儷黑 Pro",
+"LiHei Pro",
+"微軟正黑體",
+"Microsoft JhengHei",
+sans-serif;
+$font-line-height: 28px;
+$letter-space-normal: 0.2px;
+$letter-space-lg: 0.3px;
+
+// 02-2 font base  when text sm : base = 16 ; text md : base = 18; text lg : base = 20
+$font-base-num: 16;
+$font-base-num-md: 18;
+$font-base-num-lg: 20;
+$font-size-md: 1rem; //16px
+
+// 02-3.a title font size
+$font-size-lg:48px;
+$font-size-h2: $font-size-md*(36/$font-base-num); //36px
+$font-size-h3: $font-size-md*(28/$font-base-num); //28px;
+$font-size-h4: $font-size-md*(26/$font-base-num); //26px;
+$font-size-h5: $font-size-md*(24/$font-base-num); //24px;
+
+// 02-3.b setting font size  ( has it own rule about scale fon size, not follow the rule of base rem)
+$font-size-config:(font-size_lg :(font-size-h2: $font-size-md*(40/$font-base-num-lg), // 40px
+    font-size-h4: $font-size-md*(26/$font-base-num-lg), //26px
+    font-size-h5: $font-size-md*(24/$font-base-num-lg) //24px
+  ),
+  font-size_md :(font-size-h2: $font-size-md*(40/$font-base-num-md), // 40px
+    font-size-h4: $font-size-md*(26/$font-base-num-md), // 26px
+    font-size-h5: $font-size-md*(24/$font-base-num) // use sm ratio to the base
+  ),
+  font-size_sm:(font-size-h2: $font-size-md*(40/$font-base-num), // 40px
+    font-size-h4: $font-size-md*(26/$font-base-num), //26px;
+    font-size-h5: $font-size-md*(24/$font-base-num) //24px;
+  ));
+
+@function get-font-size($key, $type:'font-size_sm') {
+
+  @each $font-name,
+  $font-size in map-get($font-size-config, $type) {
+    @if($key==$font-name) {
+      @return $font-size;
+    }
+  }
+}
+
+@mixin get-font-size($font-size) {
+  font-size: get-font-size($font-size, 'font-size_sm');
+
+  .font-size_lg & {
+    font-size: get-font-size($font-size, 'font-size_lg');
+  }
+
+  .font-size_md & {
+    font-size: get-font-size($font-size, 'font-size_md');
+  }
+}
+
+// 02-4 font size normal
+$font-size-h6: $font-size-md*(20/$font-base-num); //20px
+$font-size-h7: $font-size-md*(18/$font-base-num); //18px
+$font-size-h8: $font-size-md; // 16px
+$font-size-h9: 1rem * (14/$font-base-num); // 14px
+$font-size-h10: $font-size-md *(12/$font-base-num); //12px
+
+
+// ====== 03 screen width  ======
+$screen-4k:2560px;
+$screen-laptop:1800px;
+$screen-lg-pc:1441px;
+$screen-pc: 1440px;
+$screen-pad-pro: 1366px;
+$screen-desktop: 1200px;
+$screen-sm-than-desktop: 1199px;
+$screen-lg-than-nb: 1025px;
+$screen-nb: 1024px;
+$screen-sm-than-nb: 1023px;
+$screen-lg-pad: 992px;
+$screen-lg-than-lg-pad: 993px;
+$screen-sm-than-lg-pad: 991px;
+$screen-lg-than-pad: 769px;
+$screen-pad: 768px;
+$screen-sm-than-pad: 767px;
+$screen-lg-mobile: 500px;
+$screen-mobile: 375px;
+$screen-sm-than-mobile: 374px;
+$screen-sm: 320px;

@@ -1,0 +1,22 @@
+// 這裡是共用排版樣式
+// web-ui-類型-排序
+@import '../helper/variables';
+@import '../helper/mixins';
+
+.line-col {
+  &-div {
+    opacity: 0;
+    height: 1px;
+    @media (max-width: $screen-sm-than-pad) {
+      display: none;
+    }
+  }
+  &-row {
+    width: 100%;
+
+    border-bottom: 1px solid $color-gray-01;
+    margin: 0 10px 20px;
+  }
+}
+.line-col {
+}

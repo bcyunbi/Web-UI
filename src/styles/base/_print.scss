@@ -1,0 +1,45 @@
+@media print {
+  body {
+    zoom: 75%;
+    // transform: scale(.7);
+    // -moz-transform: scale(.75);
+    // -moz-transform-origin: 0 0;
+    // scale:90%;
+    -webkit-print-color-adjust: exact;
+    // color-adjust: exact;
+  }
+
+  .print-no-show {
+    display: none;
+  }
+
+  .print-page {
+    page-break-inside: avoid;
+    /* 若順著向下排列時會切開此元素，則直接換頁 */
+  }
+
+  .page-break-after {
+    page-break-after: always;
+    /* 碰到此元素會直接換頁 */
+  }
+
+  .ui-panel {
+    &:last-of-type {
+      page-break-after: auto; // 取消強制換頁
+    }
+  }
+
+  .ui-panel_new-window {
+    &:last-of-type {
+      page-break-after: auto; // 取消強制換頁
+    }
+  }
+
+
+  @page {
+    size: A4 portrait;
+    margin: 0mm 0mm 0mm;
+    orphans: 0; // 頁面最後一段段落行數，預設值為2
+    widows: 0; // 頁面第一段段落行數，預設值為2
+  }
+}
