@@ -90,10 +90,6 @@
 </template>
 
 <script>
-// import { mapGetters, mapState } from 'vuex'
-// import _ from 'lodash'
-// import { modifyAccount } from '@/api/account'
-
 export default {
   name: 'AccountForm',
   props: {
@@ -171,23 +167,6 @@ export default {
     emitFormData() {
       this.$emit('emit-form', this.formData)
       console.log('emitFormData:::', this.formData)
-      //
-      // this.modifyData = {
-      //   ref_order_id: this.formData.ref_order_id,
-      //   order_account: this.formData.order_account,
-      //   order_password: this.formData.order_password,
-      //   ref_equity_id: this.formData.ref_equity_id,
-      //   equity_account: this.formData.equity_account,
-      //   equity_password: this.formData.equity_password,
-      //   broker_code: this.formData.broker_code,
-      //   broker: this.formData.broker,
-      //   ip_addr: this.formData.ip_addr,
-      //   role: this.formData.role,
-      //   enabled: this.formData.enabled
-      // }
-      // console.log(' this.formData', this.formData)
-
-      // modifyAccount(this.modifyData)
     }
   }
 }

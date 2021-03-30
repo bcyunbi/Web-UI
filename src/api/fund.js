@@ -1,12 +1,12 @@
 import request from '@/utils/request'
 
-export function fetchAccountList() {
+export function fetchFundList() {
   return request({
     url: '/public/portfolio/fund',
     method: 'get'
   })
 }
-export function createAccount(data) {
+export function createFund(data) {
   console.log('createAccount api::', data)
   return request({
     url: '/public/portfolio/fund',
