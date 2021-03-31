@@ -84,8 +84,10 @@
         </el-form-item>
       </el-col>
     </el-form>
-    <el-button v-if="type === 'create'" type="primary" @click="emitFormData">新增</el-button>
-    <el-button v-else type="primary" @click="emitFormData">修改</el-button>
+    <div class="dialog-btn-layout">
+      <el-button v-if="type === 'create'" type="primary" @click="emitFormData">新增</el-button>
+      <el-button v-else type="primary" @click="emitFormData">修改</el-button>
+    </div>
   </div>
 </template>
 

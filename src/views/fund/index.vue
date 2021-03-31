@@ -18,7 +18,7 @@
         </el-select>
       </div>
     </div>
-    {{ search }}
+    <!-- {{ search }} -->
     <div v-if="fundList" class="fund-page__table">
       <!--  :data="fundList" -->
       <el-table

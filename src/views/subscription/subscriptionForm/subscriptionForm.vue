@@ -2,7 +2,21 @@
   <div class="subscriptionForm">
     <el-form ref="form" :model="formData" label-width="100px">
       <el-col :span="24">
-        <el-form-item v-if="type === 'modify'" label="啟用狀態">
+        <el-form-item label="基金帳號">
+          <el-select v-model="formData.account_id" placeholder="請選擇" filterable>
+            <el-option
+              v-for="item in allFundList"
+              :key="item.id"
+              :label="item.account_id + '-' + item.subaccount"
+              :value="item.account_id"
+              @click.native="temp_key = item.id"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col v-if="type === 'modify'" :span="11" :xs="24">
+        <el-form-item label="啟用狀態">
           <el-switch
             v-model="formData.enabled"
             active-color="#13ce66"
@@ -12,21 +26,34 @@
           </el-switch>
         </el-form-item>
       </el-col>
+      <el-col v-if="type === 'modify'" :span="2" class="line-col"><div class="line-col-div"></div></el-col>
       <el-col :span="11" :xs="24">
-        <el-form-item label="每口保證金">
-          <el-input v-model="formData.margin"></el-input>
+        <el-form-item label="商品" prop="symbol">
+          <el-select v-model="formData.symbol" placeholder="請選擇商品" style="width: 100%" @change="checkMargin">
+            <el-option key="TXF" label="TXF" value="TXF" />
+            <el-option key="MXF" label="MXF" value="MXF" />
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="11" :xs="24">
+        <el-form-item label="配置資金">
+          <el-tooltip effect="dark" :content="formData.allocated_funds / 10000 + '萬元'" placement="bottom-start">
+            <el-input v-model.number="formData.allocated_funds" type="number"></el-input>
+          </el-tooltip>
         </el-form-item>
       </el-col>
       <el-col :span="2" class="line-col"><div class="line-col-div"></div></el-col>
       <el-col :span="11" :xs="24">
-        <el-form-item label="配置資金">
-          <el-input v-model="formData.allocated_funds"></el-input>
+        <el-form-item label="每口保證金">
+          <el-tooltip effect="dark" :content="marginText" placement="bottom-start">
+            <el-input v-model="formData.margin" type="number" :min="minMargin"></el-input>
+          </el-tooltip>
         </el-form-item>
       </el-col>
-      <el-col class="line-col"><div class="line-col-row"></div></el-col>
+
       <el-col :span="11" :xs="24">
         <el-form-item label="base_rate">
-          <el-input v-model="formData.base_rate"></el-input>
+          <el-input v-model.number="formData.base_rate"></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="2" class="line-col"><div class="line-col-div"></div></el-col>
@@ -39,13 +66,30 @@
           </el-select>
         </el-form-item>
       </el-col>
+      <el-col :span="11" :xs="24">
+        <el-form-item label="交易所" prop="exchange">
+          <el-select v-model="formData.exchange" placeholder="請選擇交易所" style="width: 100%">
+            <el-option key="TAIFEX" label="TAIFEX" value="TAIFEX" />
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="2" class="line-col"><div class="line-col-div"></div></el-col>
+      <el-col :span="11" :xs="24">
+        <el-form-item label="策略" prop="strategy_id">
+          <el-input v-model.number="formData.strategy_id" :min="1"></el-input>
+        </el-form-item>
+      </el-col>
     </el-form>
-    <el-button v-if="type === 'create'" type="primary" @click="emitFormData">新增</el-button>
-    <el-button v-else type="primary" @click="emitFormData">修改</el-button>
+    <div class="dialog-btn-layout">
+      <el-button v-if="type === 'create'" type="primary" @click="emitFormData">新增</el-button>
+      <el-button v-else type="primary" @click="emitFormData">修改</el-button>
+    </div>
   </div>
 </template>
 
 <script>
+import { fetchFundList } from '@/api/fund'
+import _ from 'lodash'
 export default {
   name: 'SubscriptionForm',
   props: {
@@ -60,67 +104,88 @@ export default {
   },
   data() {
     return {
-      formData: {}
+      formData: {},
+      fundList: [],
+      account_id: null,
+      minMargin: 0,
+      temp_key: null
     }
   },
-  computed: {},
+  computed: {
+    allFundList() {
+      var _allFundList = _.chain(this.fundList)
+        .map(el => {
+          var item = {
+            account_id: el.account_id,
+            subaccount: el.subaccount,
+            enabled: el.enabled,
+            id: el.id
+          }
+          return item
+        })
+        .value()
+      return _allFundList
+    },
+    marginText() {
+      var _marginText = ''
+      if (this.formData.allocated_funds > 0 && this.formData.margin > 0) {
+        _marginText =
+          this.formData.margin / 10000 +
+          '萬元，共' +
+          Math.floor(this.formData.allocated_funds / this.formData.margin) +
+          '口'
+      } else {
+        _marginText = this.formData.margin / 10000 + '萬元'
+      }
+      return _marginText
+    }
+  },
   created() {},
   mounted() {
+    fetchFundList().then(r => {
+      this.fundList = r.result
+    })
     if (this.type === 'modify') {
       this.formData = {
-        id: this.modifyData.id,
-        ref_order_id: this.modifyData.ref_order_id,
-        order_account: this.modifyData.order_account,
-        order_password: this.modifyData.order_password,
-        ref_equity_id: this.modifyData.ref_equity_id,
-        equity_account: this.modifyData.equity_account,
-        equity_password: this.modifyData.equity_password,
-        broker_code: this.modifyData.broker_code,
-        broker: this.modifyData.broker,
-        ip_addr: this.modifyData.ip_addr,
-        role: this.modifyData.role,
-        enabled: this.modifyData.enabled
+        account_id: this.modifyData.account_id,
+        exchange: this.modifyData.exchange,
+        symbol: this.modifyData.symbol,
+        strategy_id: this.modifyData.strategy_id,
+        allocated_funds: this.modifyData.allocated_funds,
+        margin: this.modifyData.margin,
+        order_mode: this.modifyData.order_mode
       }
     } else if (this.type === 'create') {
       this.formData = {
-        ref_order_id: '',
-        order_account: '',
-        order_password: '',
-        ref_equity_id: '',
-        equity_account: '',
-        equity_password: '',
-        broker_code: '',
-        broker: '',
-        ip_addr: '',
-        role: ''
+        account_id: '',
+        exchange: '',
+        symbol: '',
+        strategy_id: 0,
+        allocated_funds: 0,
+        margin: 0,
+        order_mode: '',
+        base_rate: 0,
+        subaccount: ''
       }
     }
   },
   methods: {
-    getBrokerCode(broker) {
-      let broker_code = ''
-      if (broker) {
-        switch (broker) {
-          case 'Yuanta':
-            broker_code = 'F021000'
-            break
-          case 'KGI':
-            broker_code = 'F004000'
-            break
-          case 'KGI2':
-            broker_code = 'F004011'
-            break
-          case 'Capital':
-            broker_code = 'F020000'
-            break
-          case 'SinoPac':
-            broker_code = 'F002000'
-            break
-        }
+    checkMargin() {
+      switch (this.formData.symbol) {
+        case 'MXF':
+          this.minMargin = 75000
+          break
+        case 'TXF':
+          this.minMargin = 300000
+          break
+        default:
       }
-      this.formData.broker_code = broker_code
+      if (!this.formData.margin || this.formData.margin < this.minMargin) {
+        this.formData.margin = this.minMargin
+      }
     },
     emitFormData() {
+      this.formData.subaccount = _.find(this.allFundList, { id: this.temp_key }).subaccount
       this.$emit('emit-form', this.formData)
       console.log('emitFormData:::', this.formData)
     }
