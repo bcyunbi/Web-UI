@@ -1,5 +1,11 @@
 @import '~@/styles/style-import.scss';
 
-.subscriptionForm{
-
+.subscriptionForm {
+  height: 100%;
+  width: 100%;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
