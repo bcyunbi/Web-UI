@@ -1,15 +1,15 @@
 import request from '@/utils/request'
 
-export function getMarketStatust() {
+export function getMarketStatus() {
   return request({
     url: '/public/system/market_status',
     method: 'get'
   })
 }
 
-export function postMarketStatust(data) {
+export function postMarketInfo(data) {
   return request({
-    url: '/public/system/account',
+    url: '/public/system/market_status',
     method: 'post',
     data
   })

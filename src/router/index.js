@@ -97,6 +97,30 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/order',
+    component: Layout,
+    children: [
+      {
+        path: 'order',
+        name: 'Order',
+        component: () => import('@/views/order/order'),
+        meta: { title: 'Order', icon: 'user' }
+      }
+    ]
+  },
+  {
+    path: '/market',
+    component: Layout,
+    children: [
+      {
+        path: 'market',
+        name: 'Market',
+        component: () => import('@/views/market/market'),
+        meta: { title: 'Market', icon: 'user' }
+      }
+    ]
+  },
   // {
   //   path: '/nested',
   //   component: Layout,
