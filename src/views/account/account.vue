@@ -1,5 +1,6 @@
 <template>
-  <div class="dashboard-container">
+  <div class="account
+  -container">
     <el-button type="primary" icon="el-icon-plus" @click="handleAdd">新增</el-button>
 
     <el-table :data="tableData" style="width: 100%" max-height="250" highlight-current-row>
@@ -168,7 +169,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.dashboard {
+.account {
   &-container {
     margin: 30px;
   }

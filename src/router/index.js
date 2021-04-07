@@ -40,44 +40,23 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index')
-      // meta: { title: 'Dashboard', icon: 'dashboard' }
-    }]
+    children: [
+      {
+        path: 'dashboard',
+        name: 'Dashboard',
+        component: () => import('@/views/dashboard/index')
+        // meta: { title: 'Dashboard', icon: 'dashboard' }
+      }
+    ]
   },
-
-  // {
-  //   path: '/example',
-  //   component: Layout,
-  //   redirect: '/example/table',
-  //   name: 'Example',
-  //   meta: { title: 'Example', icon: 'el-icon-s-help' },
-  //   children: [
-  //     {
-  //       path: 'table',
-  //       name: 'Table',
-  //       component: () => import('@/views/table/index'),
-  //       meta: { title: 'Table', icon: 'table' }
-  //     },
-  //     {
-  //       path: 'tree',
-  //       name: 'Tree',
-  //       component: () => import('@/views/tree/index'),
-  //       meta: { title: 'Tree', icon: 'tree' }
-  //     }
-  //   ]
-  // },
-
   {
     path: '/fund',
     component: Layout,
     children: [
       {
-        path: 'index',
+        path: 'fund',
         name: 'Fund',
-        component: () => import('@/views/fund/index'),
+        component: () => import('@/views/fund/fund'),
         meta: { title: 'Fund', icon: 'form' }
       }
     ]
@@ -87,9 +66,9 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
-        path: 'index',
+        path: 'account',
         name: 'Account',
-        component: () => import('@/views/account/index'),
+        component: () => import('@/views/account/account'),
         meta: { title: 'Account', icon: 'user' }
       }
     ]
@@ -99,10 +78,22 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
-        path: 'index',
+        path: 'subscription',
         name: 'Subscription',
-        component: () => import('@/views/subscription/index'),
+        component: () => import('@/views/subscription/subscription'),
         meta: { title: 'Subscription', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/symbol',
+    component: Layout,
+    children: [
+      {
+        path: 'symbol',
+        name: 'Symbol',
+        component: () => import('@/views/symbol/symbol'),
+        meta: { title: 'Symbol', icon: 'user' }
       }
     ]
   },

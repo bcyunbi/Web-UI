@@ -23,3 +23,19 @@
   width: 100%;
   text-align: right;
 }
+
+.web-ui-title{
+  color: $color-black-01;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-h5;
+  margin-bottom: 30px;
+}
+.web-ui-page {
+  width: 100%;
+  height: 100%;
+  &__block {
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+  }
+}

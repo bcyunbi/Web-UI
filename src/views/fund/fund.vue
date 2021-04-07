@@ -47,11 +47,11 @@
         </el-table-column>
         <el-table-column prop="created_at" label="建立時間" width="150"> </el-table-column>
         <el-table-column prop="updated_at" label="更新時間" width="150"> </el-table-column>
-        <el-table-column label="訂閱" width="100">
+        <!-- <el-table-column label="訂閱" width="100">
           <template slot-scope="scope">
             <el-button size="mini">查看訂閱</el-button>
           </template>
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
     </div>
 
@@ -150,6 +150,6 @@ export default {
 </script>
 
 <style  lang="scss"  scoped>
-@import './index.scss';
+@import './fund.scss';
 </style>
 
