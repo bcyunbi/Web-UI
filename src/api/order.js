@@ -10,16 +10,14 @@ export function getCountOrder(data) {
   console.log('getCountOrder api::', data)
 
   return request({
-    url: '/public/system/count_order',
-    method: 'get',
-    data
+    url: '/public/system/count_order?' + 'starts_at=' + data.starts_at + '&ends_at=' + data.ends_at,
+    method: 'get'
   })
 }
 export function getDetailOrder(data) {
   console.log('getDetailOrder api::', data)
   return request({
-    url: '/public/system/detail_order',
-    method: 'get',
-    data
+    url: '/public/system/detail_order?' + 'starts_at=' + data.starts_at + '&ends_at=' + data.ends_at,
+    method: 'get'
   })
 }

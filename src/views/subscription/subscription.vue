@@ -38,7 +38,7 @@
     <el-dialog title="新增訂閱" :visible.sync="createSubVisible" width="80%">
       <subscription-form :type="'create'" @emit-form="handleCreateData"></subscription-form>
     </el-dialog>
-    <el-dialog title="修改訂閱" :visible.sync="createSubVisible" width="80%">
+    <el-dialog title="修改訂閱" :visible.sync="modifySubVisible" width="80%">
       <subscription-form :modify-data="beforeModify" :type="'modify'" @emit-form="handleModifyData"></subscription-form>
     </el-dialog>
     <div class="web-ui-page__block">
@@ -77,41 +77,46 @@ export default {
     return {
       subscriptionList: [],
       createSubVisible: false,
+      modifySubVisible: false,
       beforeModify: {},
       subscriptionHistory: []
     }
   },
   computed: {},
   watch: {},
-  created() {
-    fetchSubscriptionList()
-  },
+  created() {},
   mounted() {
-    fetchSubscriptionList().then(res => {
-      console.log('fetchSubscriptionList')
-
-      if (res.error.success) this.subscriptionList = res.result
-      if (_.isNull(this.subscriptionList)) {
-        this.subscriptionList = [
-          {
-            account_id: 1,
-            exchange: 'string',
-            symbol: 'string',
-            strategy_id: 1,
-            allocated_funds: 164,
-            margin: 1,
-            order_mode: 'string'
-          }
-        ]
-      }
-      console.log('res.error.success::', res.error.success)
-      // if (_.isNull(this.subscriptionList)) {
-    })
-    getSubscriptionChanges().then(res => {
-      if (res.error.success) this.subscriptionHistory = res.result
-    })
+    this.getSubscriptionList()
+    this.getSubsChanges()
   },
   methods: {
+    async getSubsChanges() {
+      getSubscriptionChanges().then(res => {
+        if (res.error.success) this.subscriptionHistory = res.result
+      })
+    },
+    async getSubscriptionList() {
+      await fetchSubscriptionList().then(res => {
+        console.log('fetchSubscriptionList')
+
+        if (res.error.success) this.subscriptionList = res.result
+        if (_.isNull(this.subscriptionList)) {
+          this.subscriptionList = [
+            {
+              account_id: 1,
+              exchange: 'string',
+              symbol: 'string',
+              strategy_id: 1,
+              allocated_funds: 164,
+              margin: 1,
+              order_mode: 'string'
+            }
+          ]
+        }
+        console.log('res.error.success::', res.error.success)
+        // if (_.isNull(this.subscriptionList)) {
+      })
+    },
     modifySub(row) {
       console.log('modifySub::', row)
       this.beforeModify = row
@@ -137,7 +142,8 @@ export default {
               message: '修改訂閱成功'
             })
           }
-          this.createDialogVisible = false
+          this.modifySubVisible = false
+          this.getSubscriptionList()
         })
         .catch(() => {
           this.$message({
@@ -157,6 +163,7 @@ export default {
             })
           }
           this.createDialogVisible = false
+          this.getSubscriptionList()
         })
         .catch(() => {
           this.$message({

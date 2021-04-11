@@ -24,18 +24,24 @@
   text-align: right;
 }
 
-.web-ui-title{
+.web-ui-title {
   color: $color-black-01;
   font-weight: $font-weight-bold;
   font-size: $font-size-h5;
   margin-bottom: 30px;
 }
 .web-ui-page {
+  padding: 30px;
   width: 100%;
   height: 100%;
   &__block {
     padding: 20px;
     width: 100%;
     height: 100%;
+    // max-width: 800px;
   }
+}
+
+.web-ui-pagination {
+  margin-top: 20px;
 }

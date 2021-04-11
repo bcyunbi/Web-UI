@@ -185,7 +185,7 @@ export default {
       }
     },
     emitFormData() {
-      this.formData.subaccount = _.find(this.allFundList, { id: this.temp_key }).subaccount
+      // this.formData.subaccount = _.find(this.allFundList, { id: this.temp_key }).subaccount
       this.$emit('emit-form', this.formData)
       console.log('emitFormData:::', this.formData)
     }

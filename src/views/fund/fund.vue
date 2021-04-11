@@ -1,5 +1,6 @@
 <template>
-  <div class="fund-page">
+  <div class="fund-page web-ui-page">
+    <div class="web-ui-title">基金清單</div>
     <div class="fund-page__funtional-block">
       <div class="fund-page__create">
         <div class="create__btn">
@@ -18,14 +19,11 @@
         </el-select>
       </div>
     </div>
-    <!-- {{ search }} -->
-    <div v-if="fundList" class="fund-page__table">
-      <!--  :data="fundList" -->
+    <div v-if="pagedTableData" class="fund-page__table">
       <el-table
         style="width: 100%"
-        max-height="400"
         highlight-current-row
-        :data="fundList.filter(data => !search || data.subaccount.toLowerCase().includes(search.toLowerCase()))"
+        :data="pagedTableData.filter(data => !search || data.subaccount.toLowerCase().includes(search.toLowerCase()))"
       >
         <el-table-column label="啟用" width="80">
           <template slot-scope="scope">
@@ -33,6 +31,7 @@
               v-model="scope.row.enabled"
               active-color="#13ce66"
               inactive-color="#ff4949"
+              disabled
               @click="!scope.row.enabled"
             >
             </el-switch>
@@ -40,19 +39,14 @@
         </el-table-column>
         <el-table-column prop="id" label="排序" width="80" sortable></el-table-column>
         <el-table-column prop="account_id" label="帳號ID" width="120" sortable></el-table-column>
-        <el-table-column prop="subaccount" label="帳號名字" width="120">
-          <!-- <template slot="header" slot-scope="scope">
-            <el-input v-model="search" size="mini" placeholder="帳號名字" />
-          </template> -->
-        </el-table-column>
+        <el-table-column prop="subaccount" label="帳號名字" width="120"> </el-table-column>
         <el-table-column prop="created_at" label="建立時間" width="150"> </el-table-column>
         <el-table-column prop="updated_at" label="更新時間" width="150"> </el-table-column>
-        <!-- <el-table-column label="訂閱" width="100">
-          <template slot-scope="scope">
-            <el-button size="mini">查看訂閱</el-button>
-          </template>
-        </el-table-column> -->
       </el-table>
+      <div class="web-ui-pagination">
+        <el-pagination layout="prev, pager, next" :total="allFundList.length" @current-change="setPage">
+        </el-pagination>
+      </div>
     </div>
 
     <el-dialog title="新增資料" :visible.sync="createDialogVisible" width="80%">
@@ -84,10 +78,17 @@ export default {
         account_id: 0,
         subaccount: ''
       },
-      search: ''
+      search: '',
+      page: 1,
+      pageSize: 10
     }
   },
   computed: {
+    pagedTableData() {
+      if (this.allFundList) {
+        return this.allFundList.slice(this.pageSize * this.page - this.pageSize, this.pageSize * this.page)
+      } else return null
+    },
     allFundList() {
       var _allFundList = _.chain(this.fundList)
         .map(el => {
@@ -107,19 +108,20 @@ export default {
       return _allFundList
     }
   },
-  watch: {
-    // windowSize(newWidth, oldWidth) {}
-  },
+  watch: {},
   created() {},
   mounted() {
-    // this.$nextTick(() => {
-    //   window.addEventListener('resize', this.onResize)
-    // })
-    fetchFundList().then(r => {
-      this.fundList = r.result
-    })
+    this.getFundList()
   },
   methods: {
+    setPage(val) {
+      this.page = val
+    },
+    async getFundList() {
+      await fetchFundList().then(r => {
+        this.fundList = r.result
+      })
+    },
     onResize() {
       this.windowSize = window.innerWidth
     },
@@ -137,6 +139,7 @@ export default {
             })
           }
           this.createDialogVisible = false
+          this.getFundList()
         })
         .catch(() => {
           this.$message({

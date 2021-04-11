@@ -98,6 +98,18 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/market',
+    component: Layout,
+    children: [
+      {
+        path: 'market',
+        name: 'Market',
+        component: () => import('@/views/market/market'),
+        meta: { title: 'Market', icon: 'tree' }
+      }
+    ]
+  },
+  {
     path: '/order',
     component: Layout,
     children: [
@@ -109,18 +121,7 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/market',
-    component: Layout,
-    children: [
-      {
-        path: 'market',
-        name: 'Market',
-        component: () => import('@/views/market/market'),
-        meta: { title: 'Market', icon: 'user' }
-      }
-    ]
-  },
+
   // {
   //   path: '/nested',
   //   component: Layout,

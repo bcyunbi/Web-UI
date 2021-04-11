@@ -1,15 +1,17 @@
 <template>
   <div class="web-ui-page">
     <div class="web-ui-page__block">
-      <div class="web-ui-title">取得市場資訊清單 list market status</div>
+      <div class="web-ui-title">取得市場資訊清單</div>
       <el-button type="primary" icon="el-icon-plus" @click="createVisible = !createVisible">新增</el-button>
+      <div class="market-block">
       <el-table style="width: 100%" max-height="400" highlight-current-row :data="marketStatus">
-        <el-table-column label="啟用" width="80" fixed="left˝">
+        <el-table-column label="啟用" width="80" fixed="left">
           <template slot-scope="scope">
             <el-switch
               v-model="scope.row.enabled"
               active-color="#13ce66"
               inactive-color="#ff4949"
+              disabled
               @click="!scope.row.enabled"
             >
             </el-switch>
@@ -21,6 +23,7 @@
         <el-table-column prop="created_at" label="建立時間" width="150"> </el-table-column>
         <el-table-column prop="updated_at" label="更新時間" width="150"> </el-table-column>
       </el-table>
+      </div>
     </div>
     <el-dialog title="新增市場資訊" :visible.sync="createVisible" width="80%">
       <create-market-form @emit-form="handleCreateData"></create-market-form>
@@ -47,18 +50,22 @@ export default {
   watch: {},
   created() {},
   mounted() {
-    getMarketStatus().then(res => {
-      if (res.error.success) {
-        this.marketStatus = res.result
-      }
-    })
+    this.getMarketData()
   },
   methods: {
+    async getMarketData() {
+      await getMarketStatus().then(res => {
+        if (res.error.success) {
+          this.marketStatus = res.result
+        }
+      })
+    },
     handleCreateData(data) {
       console.log('postMarketInfo', data)
       postMarketInfo(data).then(res => {
         if (res.error.success) {
           this.createVisible = false
+          this.getMarketData()
         }
       })
     }
