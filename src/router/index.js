@@ -45,7 +45,7 @@ export const constantRoutes = [
         path: 'fund',
         name: 'Fund',
         component: () => import('@/views/fund/fund'),
-        meta: { title: 'Fund', icon: 'form' }
+        meta: { title: 'Fund', icon: 'fund' }
       }
     ]
   },
@@ -69,7 +69,7 @@ export const constantRoutes = [
         path: 'subscription',
         name: 'Subscription',
         component: () => import('@/views/subscription/subscription'),
-        meta: { title: 'Subscription', icon: 'table' }
+        meta: { title: 'Subscription', icon: 'tree' }
       }
     ]
   },
@@ -81,7 +81,7 @@ export const constantRoutes = [
         path: 'symbol',
         name: 'Symbol',
         component: () => import('@/views/symbol/symbol'),
-        meta: { title: 'Symbol', icon: 'user' }
+        meta: { title: 'Symbol', icon: 'package' }
       }
     ]
   },
@@ -93,7 +93,7 @@ export const constantRoutes = [
         path: 'market',
         name: 'Market',
         component: () => import('@/views/market/market'),
-        meta: { title: 'Market', icon: 'tree' }
+        meta: { title: 'Market', icon: 'statistics' }
       }
     ]
   },
@@ -105,7 +105,7 @@ export const constantRoutes = [
         path: 'order',
         name: 'Order',
         component: () => import('@/views/order/order'),
-        meta: { title: 'Order', icon: 'user' }
+        meta: { title: 'Order', icon: 'order' }
       }
     ]
   },

@@ -1,65 +1,67 @@
 <template>
   <div class="fund-page web-ui-page">
-    <div class="web-ui-title">基金清單</div>
-    <div class="fund-page__funtional-block">
-      <div class="fund-page__create">
-        <div class="create__btn">
-          <el-button type="primary" @click="createDialogVisible = true">新增基金</el-button>
+    <div class="web-ui-page__block">
+      <div class="web-ui-title">基金清單</div>
+      <div class="fund-page__funtional-block">
+        <div class="fund-page__create">
+          <div class="create__btn">
+            <el-button type="primary" @click="createDialogVisible = true">新增基金</el-button>
+          </div>
+        </div>
+        <div>
+          <el-select v-model="search" placeholder="請選擇" filterable>
+            <el-option
+              v-for="item in allFundList"
+              :key="item.id"
+              :label="item.account_id + '-' + item.subaccount"
+              :value="item.subaccount"
+            >
+            </el-option>
+          </el-select>
         </div>
       </div>
-      <div>
-        <el-select v-model="search" placeholder="請選擇" filterable>
-          <el-option
-            v-for="item in allFundList"
-            :key="item.id"
-            :label="item.account_id + '-' + item.subaccount"
-            :value="item.subaccount"
-          >
-          </el-option>
-        </el-select>
+      <div v-if="pagedTableData" class="fund-page__table">
+        <el-table
+          style="width: 100%"
+          highlight-current-row
+          :data="pagedTableData.filter(data => !search || data.subaccount.toLowerCase().includes(search.toLowerCase()))"
+        >
+          <el-table-column label="啟用" width="80">
+            <template slot-scope="scope">
+              <el-switch
+                v-model="scope.row.enabled"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+                disabled
+                @click="!scope.row.enabled"
+              >
+              </el-switch>
+            </template>
+          </el-table-column>
+          <el-table-column prop="id" label="排序" width="80" sortable></el-table-column>
+          <el-table-column prop="account_id" label="帳號ID" width="120" sortable></el-table-column>
+          <el-table-column prop="subaccount" label="帳號名字" width="120"> </el-table-column>
+          <el-table-column prop="created_at" label="建立時間" width="150"> </el-table-column>
+          <el-table-column prop="updated_at" label="更新時間" width="150"> </el-table-column>
+        </el-table>
+        <div class="web-ui-pagination">
+          <el-pagination layout="prev, pager, next" :total="allFundList.length" @current-change="setPage">
+          </el-pagination>
+        </div>
       </div>
-    </div>
-    <div v-if="pagedTableData" class="fund-page__table">
-      <el-table
-        style="width: 100%"
-        highlight-current-row
-        :data="pagedTableData.filter(data => !search || data.subaccount.toLowerCase().includes(search.toLowerCase()))"
-      >
-        <el-table-column label="啟用" width="80">
-          <template slot-scope="scope">
-            <el-switch
-              v-model="scope.row.enabled"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-              disabled
-              @click="!scope.row.enabled"
-            >
-            </el-switch>
-          </template>
-        </el-table-column>
-        <el-table-column prop="id" label="排序" width="80" sortable></el-table-column>
-        <el-table-column prop="account_id" label="帳號ID" width="120" sortable></el-table-column>
-        <el-table-column prop="subaccount" label="帳號名字" width="120"> </el-table-column>
-        <el-table-column prop="created_at" label="建立時間" width="150"> </el-table-column>
-        <el-table-column prop="updated_at" label="更新時間" width="150"> </el-table-column>
-      </el-table>
-      <div class="web-ui-pagination">
-        <el-pagination layout="prev, pager, next" :total="allFundList.length" @current-change="setPage">
-        </el-pagination>
-      </div>
-    </div>
 
-    <el-dialog title="新增資料" :visible.sync="createDialogVisible" width="80%">
-      <el-form label-position="right" label-width="80px" :model="createFundData">
-        <el-form-item label="帳號ID" required>
-          <el-input v-model.number="createFundData.account_id" type="number" :min="1"></el-input>
-        </el-form-item>
-        <el-form-item label="帳號名稱">
-          <el-input v-model="createFundData.subaccount" type="text"></el-input>
-        </el-form-item>
-      </el-form>
-      <el-button type="primary" :disabled="!createFundData.account_id" @click="handelCreateFund">新增基金</el-button>
-    </el-dialog>
+      <el-dialog title="新增資料" :visible.sync="createDialogVisible" width="80%">
+        <el-form label-position="right" label-width="80px" :model="createFundData">
+          <el-form-item label="帳號ID" required>
+            <el-input v-model.number="createFundData.account_id" type="number" :min="1"></el-input>
+          </el-form-item>
+          <el-form-item label="帳號名稱">
+            <el-input v-model="createFundData.subaccount" type="text"></el-input>
+          </el-form-item>
+        </el-form>
+        <el-button type="primary" :disabled="!createFundData.account_id" @click="handelCreateFund">新增基金</el-button>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
