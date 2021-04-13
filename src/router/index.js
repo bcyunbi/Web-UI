@@ -50,11 +50,11 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/',
+    path: '/account',
     component: Layout,
     children: [
       {
-        path: 'account',
+        path: '',
         name: 'Account',
         component: () => import('@/views/account/account'),
         meta: { title: 'Account', icon: 'user' }
@@ -62,11 +62,11 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/',
+    path: '/subscription',
     component: Layout,
     children: [
       {
-        path: 'subscription',
+        path: '',
         name: 'Subscription',
         component: () => import('@/views/subscription/subscription'),
         meta: { title: 'Subscription', icon: 'tree' }
@@ -74,11 +74,11 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/',
+    path: '/symbol',
     component: Layout,
     children: [
       {
-        path: 'symbol',
+        path: '',
         name: 'Symbol',
         component: () => import('@/views/symbol/symbol'),
         meta: { title: 'Symbol', icon: 'package' }
@@ -86,11 +86,11 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/',
+    path: '/market',
     component: Layout,
     children: [
       {
-        path: 'market',
+        path: '',
         name: 'Market',
         component: () => import('@/views/market/market'),
         meta: { title: 'Market', icon: 'statistics' }
@@ -98,11 +98,11 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/',
+    path: '/order',
     component: Layout,
     children: [
       {
-        path: 'order',
+        path: '',
         name: 'Order',
         component: () => import('@/views/order/order'),
         meta: { title: 'Order', icon: 'order' }
@@ -110,12 +110,12 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/',
+    path: '/dashboard',
     component: Layout,
     // redirect: '/dashboard',
     children: [
       {
-        path: 'dashboard',
+        path: '',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/index')
         // meta: { title: 'Dashboard', icon: 'dashboard' }

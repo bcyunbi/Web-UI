@@ -17,6 +17,7 @@
         </el-table-column>
         <el-table-column prop="id" label="排序" width="80" sortable></el-table-column>
         <el-table-column prop="account_id" label="帳號ID" width="120" sortable></el-table-column>
+        <el-table-column prop="subaccount" label="帳號名字" width="120"> </el-table-column>
         <el-table-column prop="fund_id" label="基金ID" width="120" sortable></el-table-column>
         <el-table-column prop="strategy_id" label="策略ID" width="120" sortable></el-table-column>
         <el-table-column prop="exchange" label="exchange" width="120" sortable></el-table-column>
@@ -25,7 +26,6 @@
         <el-table-column prop="allocated_funds" label="配置資金" width="120" sortable></el-table-column>
         <el-table-column prop="base_rate" label="base_rate" width="120" sortable></el-table-column>
         <el-table-column prop="order_mode" label="進場模式" width="120" sortable></el-table-column>
-        <el-table-column prop="subaccount" label="帳號名字" width="120"> </el-table-column>
         <el-table-column prop="created_at" label="建立時間" width="150"> </el-table-column>
         <el-table-column prop="updated_at" label="更新時間" width="150"> </el-table-column>
         <el-table-column fixed="right" label="" width="100">
@@ -38,7 +38,8 @@
     <el-dialog title="新增訂閱" :visible.sync="createSubVisible" width="80%">
       <subscription-form :type="'create'" @emit-form="handleCreateData"></subscription-form>
     </el-dialog>
-    <el-dialog title="修改訂閱" :visible.sync="modifySubVisible" width="80%">
+    {{ beforeModify }}
+    <el-dialog v-if="modifySubVisible" :visible.sync="modifySubVisible" title="修改訂閱" width="80%">
       <subscription-form :modify-data="beforeModify" :type="'modify'" @emit-form="handleModifyData"></subscription-form>
     </el-dialog>
     <div class="web-ui-page__block">
@@ -68,7 +69,6 @@ import {
   modifySubscription,
   getSubscriptionChanges
 } from '@/api/subscription'
-import _ from 'lodash'
 import subscriptionForm from './subscriptionForm/subscriptionForm'
 export default {
   name: 'Subscription',
@@ -97,41 +97,41 @@ export default {
     },
     async getSubscriptionList() {
       await fetchSubscriptionList().then(res => {
-        console.log('fetchSubscriptionList')
+        // console.log('fetchSubscriptionList', res)
 
         if (res.error.success) this.subscriptionList = res.result
-        if (_.isNull(this.subscriptionList)) {
-          this.subscriptionList = [
-            {
-              account_id: 1,
-              exchange: 'string',
-              symbol: 'string',
-              strategy_id: 1,
-              allocated_funds: 164,
-              margin: 1,
-              order_mode: 'string'
-            }
-          ]
-        }
-        console.log('res.error.success::', res.error.success)
         // if (_.isNull(this.subscriptionList)) {
+        //   this.subscriptionList = [
+        //     {
+        //       account_id: 1,
+        //       subaccount: '',
+        //       exchange: 'string',
+        //       symbol: 'string',
+        //       strategy_id: 1,
+        //       allocated_funds: 164,
+        //       margin: 1,
+        //       order_mode: 'string'
+        //     }
+        //   ]
+        // }
       })
     },
     modifySub(row) {
       console.log('modifySub::', row)
       this.beforeModify = row
-      this.createSubVisible = true
+      this.modifySubVisible = true
     },
     handleModifyData(data) {
-      console.log('handleModifyData', data)
+      // console.log('handleModifyData', data)
       var putData = {
-        sub_id: data.account_id, // test
+        sub_id: data.sub_id, // test
         payload: {
           margin: data.margin,
           allocated_funds: data.allocated_funds,
           base_rate: data.base_rate,
           order_mode: data.order_mode,
-          enabled: data.enabled
+          enabled: data.enabled,
+          subaccount: data.subaccount
         }
       }
       modifySubscription(putData)
@@ -153,7 +153,7 @@ export default {
         })
     },
     handleCreateData(data) {
-      console.log('handleCreateData', data)
+      // console.log('handleCreateData', data)
       createSubscription(data)
         .then(res => {
           if (res.error.success) {

@@ -55,7 +55,6 @@
 <script>
 import { fetchAccountList, modifyAccount, createAccount } from '@/api/account'
 import accountForm from './components/accountForm'
-import _ from 'lodash'
 
 export default {
   name: 'Account',

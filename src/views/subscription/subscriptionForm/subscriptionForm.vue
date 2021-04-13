@@ -1,7 +1,7 @@
 <template>
   <div class="subscriptionForm">
     <el-form ref="form" :model="formData" label-width="100px">
-      <el-col :span="24">
+      <el-col v-if="type === 'create'" :span="24">
         <el-form-item label="基金帳號">
           <el-select v-model="formData.account_id" placeholder="請選擇" filterable>
             <el-option
@@ -66,15 +66,15 @@
           </el-select>
         </el-form-item>
       </el-col>
-      <el-col :span="11" :xs="24">
+      <el-col v-if="type === 'create'" :span="11" :xs="24">
         <el-form-item label="交易所" prop="exchange">
           <el-select v-model="formData.exchange" placeholder="請選擇交易所" style="width: 100%">
             <el-option key="TAIFEX" label="TAIFEX" value="TAIFEX" />
           </el-select>
         </el-form-item>
       </el-col>
-      <el-col :span="2" class="line-col"><div class="line-col-div"></div></el-col>
-      <el-col :span="11" :xs="24">
+      <el-col v-if="type === 'create'" :span="2" class="line-col"><div class="line-col-div"></div></el-col>
+      <el-col v-if="type === 'create'" :span="11" :xs="24">
         <el-form-item label="策略" prop="strategy_id">
           <el-input v-model.number="formData.strategy_id" :min="1"></el-input>
         </el-form-item>
@@ -102,6 +102,7 @@ export default {
       default: null
     }
   },
+
   data() {
     return {
       formData: {},
@@ -146,14 +147,15 @@ export default {
       this.fundList = r.result
     })
     if (this.type === 'modify') {
+      console.log('modifyData::', this.modifyData)
+
       this.formData = {
-        account_id: this.modifyData.account_id,
-        exchange: this.modifyData.exchange,
-        symbol: this.modifyData.symbol,
-        strategy_id: this.modifyData.strategy_id,
+        sub_id: this.modifyData.id,
         allocated_funds: this.modifyData.allocated_funds,
         margin: this.modifyData.margin,
-        order_mode: this.modifyData.order_mode
+        base_rate: this.modifyData.base_rate,
+        order_mode: this.modifyData.order_mode,
+        enabled: this.modifyData.enabled
       }
     } else if (this.type === 'create') {
       this.formData = {
@@ -185,7 +187,10 @@ export default {
       }
     },
     emitFormData() {
-      // this.formData.subaccount = _.find(this.allFundList, { id: this.temp_key }).subaccount
+      if (this.type === 'create') {
+        this.formData.subaccount = _.find(this.allFundList, { id: this.temp_key }).subaccount
+      }
+      // else {this.formData.id =
       this.$emit('emit-form', this.formData)
       console.log('emitFormData:::', this.formData)
     }
